@@ -1,7 +1,6 @@
 function buildMetadata(sample) {
 
   // @TODO: Complete the following function that builds the metadata panel
-
   // Use `d3.json` to fetch the metadata for a sample
   d3.json("/metadata/"+sample).then((metadata3)=>{
     console.log(metadata3)
@@ -16,17 +15,14 @@ function buildMetadata(sample) {
     var WFREQ = metadata3.WFREQ;
     delete metadata3.WFREQ;
     d3.select("#sample-metadata").append("table").append("tbody");
-    Object.defineProperties(metadata3).forEach(([key, value])=>
+    Object.entries(metadata3).forEach(([key, value])=>
     d3.select("tbody").append("tr").html(`<td><b>${key}</b><br/>${value}</td>`)
     );
     // BONUS: Build the Gauge Chart
     // buildGauge(data.WFREQ);
-}
-  )};
-    
+})};
 
     
-
 function buildCharts(sample) {
 
   // @TODO: Use `d3.json` to fetch the sample data for the plots

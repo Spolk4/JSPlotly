@@ -78,7 +78,6 @@ def sample_metadata(sample):
     print(sample_metadata)
     return jsonify(sample_metadata)
 
-
 @app.route("/samples/<sample>")
 def samples(sample):
     """Return `otu_ids`, `otu_labels`,and `sample_values`."""
@@ -98,6 +97,7 @@ def samples(sample):
         "sample_values": sample_data[sample].values.tolist(),
         "otu_labels": sample_data.otu_label.tolist(),
     }
+
     return jsonify(data)
 
 

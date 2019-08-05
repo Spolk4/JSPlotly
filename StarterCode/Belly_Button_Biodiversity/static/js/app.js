@@ -10,10 +10,10 @@ function buildMetadata(sample) {
     selector.html("");
     // Use `Object.entries` to add each key and value pair to the panel
     // Hint: Inside the loop, you will need to use d3 to append new
-    //Object.entries(metadata3).forEach([key, value]) => console.log('${key}: ${value}');
     // tags for each key-value in the metadata.
-    var WFREQ = metadata3.WFREQ;
-    delete metadata3.WFREQ;
+    // var WFREQ = metadata3.WFREQ;
+    // delete metadata3.WFREQ;
+    
     d3.select("#sample-metadata").append("table").append("tbody");
     Object.entries(metadata3).forEach(([key, value])=>
     d3.select("tbody").append("tr").html(`<td><b>${key}</b><br/>${value}</td>`)
@@ -27,47 +27,50 @@ function buildCharts(sample) {
 
   // @TODO: Use `d3.json` to fetch the sample data for the plots
   d3.json("/samples/"+ sample).then((sampleNames)=>{
-    //console.log(sampleNames)
-    //sampleNames.sort(compare);
+    // console.log(sampleNames)
+    // sampleNames.sort(compare);
         // @TODO: Build a Pie Chart
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
-    vardata = [{
+    var trace ={
+      x: sampleNames.otu_ids,
+      y: sampleNames.sample_values,
+      text: sampleNames.otu_labels,
+      mode:'markers',
+      marker:{
+        size: sampleNames.sample_values,
+        color: sampleNames.otu_ids,
+        showscale:true
+      }
+    };
+    var data = [{
       labels: sampleNames.otu_ids.slice(0,10),
       values: sampleNames.sample_values.slice(0,10),
       hovertext: sampleNames.otu_labels.slice(0,10),
       type:'pie'
     }];
-    var layout = {
+    
+    var layout1 = {
       heigt:400,
       width:900
     };
 
-    plotly.newPlot('pie', data, layout);
+    Plotly.newPlot('pie', data, layout1);
 
-  })
+  
     // @TODO: Build a Bubble Chart using the sample data
-  var trace1 ={
-    x:sampleNames.otu_ids,
-    y:sampleNames.sample_values,
-    text: sampleNames.otu_labels,
-    mode:'markers',
-    marker:{
-      size:sampleNames.sample_values,
-      color:sampleNames.otu_ids,
-      showscale:true
-    }
-  };
-  var data = [trace1];
+    
+    var data = [trace];
 
-  var layout = {
-    title:'Out ID',
-    showlengend: false,
-    height:600,
-    width:900
-  };
+    var layout2 = {
+      title:'Out ID',
+      showlengend: false,
+      height:600,
+      width:900
+    };
 
-  Plotly.newPlot('bubble', data, layout);
+    Plotly.newPlot('bubble', data, layout2);
+  });
 };
 
 function init() {

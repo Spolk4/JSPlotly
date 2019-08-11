@@ -2,11 +2,9 @@ function buildMetadata(sample) {
 
   // @TODO: Complete the following function that builds the metadata panel
   // Use `d3.json` to fetch the metadata for a sample
-  var url= '/metadata/${sample}'
-  d3.json(url).then((element){
-    console.log(element)
+  d3.select('/metadata/${sample}').then((data) => {
+    var selector = d3.select("#sample-metadata");
     // Use d3 to select the panel with id of `#sample-metadata`
-    var selector = d3.select("#sample-metedata");
     // Use `.html("") to clear any existing metadata
     selector.html("");
     // Use `Object.entries` to add each key and value pair to the panel
@@ -14,11 +12,10 @@ function buildMetadata(sample) {
     // tags for each key-value in the metadata.
     // var WFREQ = metadata3.WFREQ;
     // delete metadata3.WFREQ;
-    
-    d3.select("#sample-metadata").append("table").append("tbody");
-    Object.entries(metadata3).forEach(([key, value])=>
-    d3.select("tbody").append("tr").html(`<td><b>${key}</b><br/>${value}</td>`)
-    );
+    Object.entries(metadata3).forEach(([key, value])=> {
+      selector.append("h6").text(`${key}: ${value}`);
+    });
+   
     // BONUS: Build the Gauge Chart
     // buildGauge(data.WFREQ);
 })};
@@ -27,31 +24,33 @@ function buildMetadata(sample) {
 function buildCharts(sample) {
 
   // @TODO: Use `d3.json` to fetch the sample data for the plots
-  d3.json("/samples/"+ sample).then((sampleNames)=>{
-    // console.log(sampleNames)
-    // sampleNames.sort(compare);
+  d3.json(`/samples/${sample}`).then((datas)=>{
+    // console.log(data)
+    const otu_ids=data.otu_ids;
+    const otu_labels = data.otu_labels;
+    const sample_values = data.sample_values;
         // @TODO: Build a Pie Chart
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
-    var trace ={
-      x: sampleNames.otu_ids,
-      y: sampleNames.sample_values,
-      text: sampleNames.otu_labels,
-      mode:'markers',
-      marker:{
-        size: sampleNames.sample_values,
-        color: sampleNames.otu_ids,
-        showscale:true
-      }
-    };
-    var data = [{
-      labels: sampleNames.otu_ids.slice(0,10),
-      values: sampleNames.sample_values.slice(0,10),
-      hovertext: sampleNames.otu_labels.slice(0,10),
+    // var trace ={
+    //   x: sampleNames.otu_ids,
+    //   y: sampleNames.sample_values,
+    //   text: sampleNames.otu_labels,
+    //   mode:'markers',
+    //   marker:{
+    //     size: sampleNames.sample_values,
+    //     color: sampleNames.otu_ids,
+    //     showscale:true
+    //   }
+    // };
+    var pieData = [{
+      labels: otu_ids.slice(0,10),
+      values: sample_values.slice(0,10),
+      hovertext: otu_labels.slice(0,10),
       type:'pie'
     }];
     
-    var layout1 = {
+    var pieLayout = {
       heigt:400,
       width:900
     };

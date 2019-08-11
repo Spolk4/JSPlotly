@@ -33,13 +33,6 @@
       </div>
       <div class="col-md-5">
         <div id="pie"></div>
-        <script>
-          var url= "/samples/<sample>";
-            d3.json(url).then(function(data) {
-              var layout = { margin: {t: 0}}
-              plotly.newPlot('pie', data, lauout)
-            })
-        </script>
       </div>
       <div class="col-md-5">
         <div id="gauge"></div>

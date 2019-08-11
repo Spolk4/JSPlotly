@@ -31,18 +31,7 @@ function buildCharts(sample) {
     const sample_values = data.sample_values;
         // @TODO: Build a Pie Chart
     // HINT: You will need to use slice() to grab the top 10 sample_values,
-    // otu_ids, and labels (10 each).
-    // var trace ={
-    //   x: sampleNames.otu_ids,
-    //   y: sampleNames.sample_values,
-    //   text: sampleNames.otu_labels,
-    //   mode:'markers',
-    //   marker:{
-    //     size: sampleNames.sample_values,
-    //     color: sampleNames.otu_ids,
-    //     showscale:true
-    //   }
-    // };
+ 
     var pieData = [{
       labels: otu_ids.slice(0,10),
       values: sample_values.slice(0,10),
@@ -55,21 +44,32 @@ function buildCharts(sample) {
       width:900
     };
 
-    Plotly.newPlot('pie', data, layout1);
+    Plotly.newPlot('pie', pieData, pieLayout);
 
   
     // @TODO: Build a Bubble Chart using the sample data
-    
-    var data = [trace];
+    var bubbleData = [
+      {
+        x: otu_ids,
+        y: sample_values,
+        text: otu_labels,
+        mode: "markers",
+        marker: {
+          size: sample_values,
+          color: otu_ids,
+          colorscale: "Earth"
+        }
+      }
+    ];
 
-    var layout2 = {
-      title:'Out ID',
-      showlengend: false,
-      height:600,
-      width:900
+    var bubbleLayout = {
+      margin: { t: 0 },
+      hovermode: "closest",
+      xaxis: { title: "OTU ID" }
     };
 
-    Plotly.newPlot('bubble', data, layout2);
+
+    Plotly.newPlot('bubble', BubbleData, bubbleLayout);
   });
 };
 

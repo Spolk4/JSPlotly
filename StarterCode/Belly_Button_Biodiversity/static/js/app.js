@@ -1,37 +1,32 @@
 function buildMetadata(sample) {
-
   // @TODO: Complete the following function that builds the metadata panel
-  // Use `d3.json` to fetch the metadata for a sample
-  d3.select('/metadata/${sample}').then((data) => {
-    var selector = d3.select("#sample-metadata");
-
+  d3.select(`/metadata/${sample}`).then((data) => { // Use `d3.json` to fetch the metadata for a sample
+    var samplePanel = d3.select("#sample-metadata");
     // Use d3 to select the panel with id of `#sample-metadata`
     // Use `.html("") to clear any existing metadata
-    selector.html("");
-
+    samplePanel.html("");
     // Use `Object.entries` to add each key and value pair to the panel
     // Hint: Inside the loop, you will need to use d3 to append new
     // tags for each key-value in the metadata.
-    Object.entries(data).forEach(([key, value])=> {
-      selector.append("h6").text(`${key}: ${value}`);
+    Object.entries(data).forEach(([key, value]) => {
+      samplePanel.append("p").text(`${key}: ${value}`);
     });
    
     // BONUS: Build the Gauge Chart
-    buildGauge(data.WFREQ);
+    // buildGauge(data.WFREQ);
     // var WFREQ = metadata3.WFREQ;
-  })
+  });
 };
 
     
 function buildCharts(sample) {
-
   // @TODO: Use `d3.json` to fetch the sample data for the plots
-  d3.json(`/samples/${sample}`).then((datas)=>{
+  d3.json(`/samples/${sample}`).then((data)=>{
     // console.log(data)
     const otu_ids=data.otu_ids;
     const otu_labels = data.otu_labels;
     const sample_values = data.sample_values;
-        // @TODO: Build a Pie Chart
+    // @TODO: Build a Pie Chart
     // HINT: You will need to use slice() to grab the top 10 sample_values,
  
     var pieData = [

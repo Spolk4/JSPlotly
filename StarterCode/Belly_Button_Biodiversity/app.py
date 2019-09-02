@@ -46,7 +46,7 @@ def names():
     return jsonify(list(df.columns)[2:])
 
 
-@app.route("/metadata/<sample>", methods=["GET", "POST"])
+@app.route("/metadata/<sample>")
 def sample_metadata(sample):
     """Return the MetaData for a given sample."""
     sel = [
@@ -72,6 +72,7 @@ def sample_metadata(sample):
         sample_metadata["BBTYPE"] = result[5]
         sample_metadata["WFREQ"] = result[6]
 
+    print(sample_metadata)
     return jsonify(sample_metadata)
 
 @app.route("/samples/<sample>")
